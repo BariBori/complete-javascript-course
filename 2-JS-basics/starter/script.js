@@ -13,3 +13,8 @@ age = 'twenty eight';
 
 console.log(firstName + ' ' + lastName + " is "
 + age + ' years old. Is he married? ' + isMarried);
+
+lastName = "Smith";
+console.log(firstName + ' ' + lastName + " is "
++ age + ' years old. Is he married? ' + isMarried);
+
