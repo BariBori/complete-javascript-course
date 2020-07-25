@@ -1,7 +1,7 @@
 console.log("Hello world js");
 
 var firstName = 'John';
-var age = 28;
+var age = 27;
 var isMarried = false;
 
 var lastName = prompt('What is his last name?');
