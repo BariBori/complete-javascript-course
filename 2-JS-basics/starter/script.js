@@ -18,3 +18,10 @@ lastName = "Smith";
 console.log(firstName + ' ' + lastName + " is "
 + age + ' years old. Is he married? ' + isMarried);
 
+age = 28;
+
+console.log('John\'s age: '+ age);
+
+
+var drink = age >=18 ? 'beer' : 'juice';
+console.log('John drinks ' + drink);

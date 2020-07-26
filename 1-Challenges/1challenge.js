@@ -10,5 +10,5 @@ var MarkBMIHigher = MarkBMI > JohnBMI;
 console.log("-----First challenge---------");
 console.log("Mark's BMI: " + MarkBMI);
 console.log("John's BMI: " + JohnBMI);
-console.log("Is Mark BMI higher than John's? " + MarkBMIHigher);
+console.log("Is Mark's BMI higher than John's? " + MarkBMIHigher);
 console.log("------------------");
