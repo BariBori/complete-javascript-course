@@ -29,6 +29,7 @@ console.log('John drinks ' + drink);
 
 
 //----------Functions-----------
+console.log('--------Functions---------')
 
 function calculateAge(birthYear){
     return 2020 - birthYear;
@@ -67,7 +68,7 @@ console.log(whatDoYouDo('BI analyst','Orsi'));
 console.log(whatDoYouDo('teacher','John'));
 
 //Arrays
-
+console.log('--------Arrays---------')
 var john = ['John', 'Smith', 1990, 'teacher', false ];
 console.log(john);
 
@@ -95,9 +96,31 @@ console.log(isDesigner);
 
 //----------Objects-----------
 
+console.log('--------Objects---------')
+
+//Object literal
 var mary = {
     firstName: 'Mary',
     lastName: 'Smith',
     job: 'teacher',
-    birthyear: '1979',
+    birthYear: '1979',
+    calcAge: function(){
+        this.age = 2020 - this.birthYear;
+    }
 }
+console.log(mary);
+console.log('Age: ' + mary.calcAge());
+console.log('Name: ' + mary.firstName + ' ' + mary['lastName']);
+console.log('change lastname');
+
+mary.lastName ='Miller';
+console.log('New name: '+ mary.firstName + ' ' + mary.lastName);
+console.log(mary);
+
+// new object syntax
+var jane = new Object();
+jane.firstName = 'Jane';
+jane['lasName'] = 'Teller';
+
+
+console.log(jane);
