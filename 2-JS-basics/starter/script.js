@@ -124,3 +124,37 @@ jane['lasName'] = 'Teller';
 
 
 console.log(jane);
+
+console.log('--------Loops and iteration---------')
+
+var tom = ['Tom', 'Engel', 27, 'driver', false, 'blue'];
+console.log('--all array--');
+console.log(tom);
+console.log('--for every second element--');
+for(var i=1; i<tom.length; i +=2){
+    console.log(tom[i]);
+}
+
+console.log('--while all--');
+var j = 0;
+while(j < tom.length){
+    console.log(tom[j]);
+    j++;
+}
+
+console.log('--for continue all without not strings--')
+for(var k=0; k<tom.length; k++){
+    if(typeof tom[k] !== 'string') continue;
+    console.log(tom[k]);
+}
+
+console.log('--for break when not strings--')
+for(var k=0; k<tom.length; k++){
+    if(typeof tom[k] !== 'string') break;
+    console.log(tom[k]);
+}
+
+console.log('--for backward--');
+for(var i=tom.length-1; i>=0; i--){
+    console.log(tom[i]);
+}
