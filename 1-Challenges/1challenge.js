@@ -7,7 +7,7 @@ var MarkBMI = (MarkMass /(MarkHeight * MarkHeight)).toFixed(2);
 
 var MarkBMIHigher = MarkBMI > JohnBMI;
 
-console.log("-----First challenge---------");
+console.log("---------1. challenge---------");
 console.log("Mark's BMI: " + MarkBMI);
 console.log("John's BMI: " + JohnBMI);
 console.log("Is Mark's BMI higher than John's? " + MarkBMIHigher);

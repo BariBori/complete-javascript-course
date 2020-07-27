@@ -13,7 +13,7 @@ var MarySecond = 134;
 var MaryThird = 105;
 var MaryAvg = (MaryFirst+MarySecond+MaryThird)/3;
 
-console.log('-----------Second challenge---------')
+console.log('-----------2. challenge---------');
 console.log('John\'s avg: ' + JohnAvg.toFixed(2));
 console.log('Mark\'s avg: ' + MarkAvg.toFixed(2));
 console.log('Mary\'s avg: ' + MaryAvg.toFixed(2));
