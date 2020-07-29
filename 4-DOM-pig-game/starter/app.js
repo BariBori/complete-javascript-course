@@ -9,24 +9,42 @@ GAME RULES:
 
 */
 
-var scores, roundScore, activePlayer, dice, gamePlaying;
+/*
+YOUR 3 CHALLENGES
+Change the game to follow these rules:
+
+1. A player looses his ENTIRE score when he rolls two 6 in a row. After that, it's the next player's turn. 
+(Hint: Always save the previous dice roll in a separate variable)
+2. Add an input field to the HTML where players can set the winning score, so that they can change the predefined score of 100. 
+(Hint: you can read that value with the .value property in JavaScript. This is a good oportunity to use google to figure this out :)
+3. Add another dice to the game, so that there are two dices now. The player looses his current score when one of them is a 1. 
+(Hint: you will need CSS to position the second dice, so take a look at the CSS code for the first one.)
+*/
+
+
+var scores, roundScore, activePlayer, dice, gamePlaying, previousRoll;
 
 //clear the table
 init();
 
-var diceDOM = document.querySelector('.dice');
+gamePlaying = true;
+
+previousRoll = 0;
+
+//var diceDOM = document.querySelector('.dice');
 
 //dice button
 document.querySelector('.btn-roll').addEventListener('click', function(){
     if(gamePlaying){
 
         //random number
-        var dice = Math.floor(Math.random()*6)+1;
+        var dice = Math.floor(Math.random()*(6-1+1)+1);
+
 
         //display result
-        //var diceDOM = document.querySelector('.dice');
-        diceDOM.style.display = 'block';
-        diceDOM.src = 'dice-' + dice + '.png';
+        document.querySelector('.dice').style.display = 'block';
+        document.querySelector('.dice').src = 'dice-' + dice + '.png';
+        document.querySelector('#previous-'+ activePlayer).textContent = previousRoll;
 
         //update the round score if the rolled number was not 1
         if(dice !== 1){
@@ -34,7 +52,17 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
             roundScore += dice;
             //add roundscore to the dom
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
-        } else {
+            previousRoll = dice;
+         } else if(previousRoll === 6 && dice === 6){
+            scores[activePlayer] = 0;
+            previousRoll = 0;
+            document.querySelector('#previous-'+activePlayer).textContent = 0;
+            document.querySelector('#score-' +activePlayer).textContent = 0;
+            nextPlayer();
+         }
+        else if(dice === 1) {
+            previousRoll = 0;
+            document.querySelector('#previous-'+activePlayer).textContent = 0;
             nextPlayer();
         }
     } 
@@ -43,6 +71,8 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
 //hold button
 document.querySelector('.btn-hold').addEventListener('click', function(){
     if(gamePlaying){
+        previousRoll = 0;
+        document.querySelector('#previous-'+activePlayer).textContent = 0;
         //add roundscore to global scores
         scores[activePlayer] += roundScore;
 
@@ -50,9 +80,9 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
         document.querySelector('#score-' +activePlayer).textContent = scores[activePlayer];
 
         //check if the player won the game
-        if(scores[activePlayer]>=20){
+        if(scores[activePlayer]>=100){
             document.querySelector('#name-'+ activePlayer).textContent = 'WINNER!';
-            diceDOM.style.display = 'none';
+            document.querySelector('.dice').style.display = 'none';
   
             document.querySelector('.player-'+ activePlayer + '-panel').classList.remove('active');
             document.querySelector('.player-'+ activePlayer + '-panel').classList.add('winner');
@@ -83,13 +113,14 @@ function nextPlayer(){
     document.querySelector('.player-0-panel').classList.toggle('active');
     document.querySelector('.player-1-panel').classList.toggle('active');
 
-    diceDOM.style.display = 'none';
+    document.querySelector('.dice').style.display = 'none';
 }
 
 function init(){
     scores = [0,0];
     roundScore = 0;
     activePlayer = 0;
+    gamePlaying = true;
 
     //hide dice
     document.querySelector('.dice').style.display = 'none';
