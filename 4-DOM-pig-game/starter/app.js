@@ -54,6 +54,7 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
             previousRoll = dice;
          } else if(previousRoll === 6 && dice === 6){
+             //TODO
             scores[activePlayer] = 0;
             previousRoll = 0;
             document.querySelector('#previous-'+activePlayer).textContent = 0;
