@@ -22,7 +22,7 @@ Change the game to follow these rules:
 */
 
 
-var scores, roundScore, activePlayer, dice, gamePlaying, previousRoll;
+var scores, roundScore, activePlayer, dice, gamePlaying, previousRoll,  dicelist0, dicelist1, maxPoint;
 
 //clear the table
 init();
@@ -30,8 +30,15 @@ init();
 gamePlaying = true;
 
 previousRoll = 0;
+maxPoint = 100;
 
-//var diceDOM = document.querySelector('.dice');
+//set max point button
+document.querySelector('.btn-max-point').addEventListener('click', function(){
+    maxPoint = document.getElementById('max-point-value').value;
+    console.log(maxPoint);
+    document.getElementById('maxPoint').textContent = maxPoint;
+});
+
 
 //dice button
 document.querySelector('.btn-roll').addEventListener('click', function(){
@@ -40,31 +47,39 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
         //random number
         var dice = Math.floor(Math.random()*(6-1+1)+1);
 
-
+        console.log(maxPoint);
         //display result
         document.querySelector('.dice').style.display = 'block';
         document.querySelector('.dice').src = 'dice-' + dice + '.png';
         document.querySelector('#previous-'+ activePlayer).textContent = previousRoll;
 
         //update the round score if the rolled number was not 1
-        if(dice !== 1){
-            //calculate roundscore
-            roundScore += dice;
-            //add roundscore to the dom
-            document.querySelector('#current-' + activePlayer).textContent = roundScore;
-            previousRoll = dice;
-         } else if(previousRoll === 6 && dice === 6){
+        if(previousRoll === 6 && dice === 6 ){
              //TODO
             scores[activePlayer] = 0;
             previousRoll = 0;
-            document.querySelector('#previous-'+activePlayer).textContent = 0;
-            document.querySelector('#score-' +activePlayer).textContent = 0;
+            roundScore = 0;
+            document.querySelector('#current-' + activePlayer).textContent = 0;
+            document.querySelector('#previous-'+ activePlayer).textContent = 0;
+            document.querySelector('#score-' + activePlayer).textContent = 0;
+            diceList(activePlayer, dice);;
             nextPlayer();
          }
         else if(dice === 1) {
             previousRoll = 0;
             document.querySelector('#previous-'+activePlayer).textContent = 0;
+            diceList(activePlayer, dice);
+            
             nextPlayer();
+        } else {
+            //calculate roundscore
+            roundScore += dice;
+            //add roundscore to the dom
+            document.querySelector('#current-' + activePlayer).textContent = roundScore;
+            previousRoll = dice;
+            
+           diceList(activePlayer, dice);
+
         }
     } 
 });
@@ -81,7 +96,7 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
         document.querySelector('#score-' +activePlayer).textContent = scores[activePlayer];
 
         //check if the player won the game
-        if(scores[activePlayer]>=100){
+        if(scores[activePlayer]>=maxPoint){
             document.querySelector('#name-'+ activePlayer).textContent = 'WINNER!';
             document.querySelector('.dice').style.display = 'none';
   
@@ -122,6 +137,11 @@ function init(){
     roundScore = 0;
     activePlayer = 0;
     gamePlaying = true;
+    dicelist0 = [];
+    dicelist1 = [];
+
+    
+    
 
     //hide dice
     document.querySelector('.dice').style.display = 'none';
@@ -131,6 +151,9 @@ function init(){
     document.getElementById('score-1').textContent = '0';
     document.getElementById('current-0').textContent = '0';
     document.getElementById('current-1').textContent = '0';
+    document.getElementById('dicelist-0').textContent = '';
+    document.getElementById('dicelist-1').textContent = '';
+
 
     //set Players name
     document.getElementById('name-0').textContent = 'Player 1';
@@ -149,4 +172,11 @@ function init(){
 
 
 }
+
+function diceList(activePlayer, dice){
+    eval('dicelist' + activePlayer).push(dice);
+    var lastFive = eval('dicelist'+ activePlayer).slice(Math.max(eval('dicelist'+ activePlayer).length-5,0));
+    document.querySelector('#dicelist-' + activePlayer).textContent = lastFive;
+}
+
 

@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+       
         <link href="https://fonts.googleapis.com/css?family=Lato:100,300,600" rel="stylesheet" type="text/css">
         <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
         <link type="text/css" rel="stylesheet" href="style.css">
@@ -10,7 +11,12 @@
     </head>
 
     <body>
+        
         <div class="wrapper clearfix">
+            <form>
+                <input type="number" id="max-point-value"><button class="btn-max-point">Set max point</button>
+            </form>
+            <div class="max-point">Max point: <span id="maxPoint"></span></div>
             <div class="player-0-panel active">
                 <div class="player-name" id="name-0">Player 1</div>
                 <div class="player-score" id="score-0">43</div>
@@ -19,6 +25,7 @@
                     <div class="player-current-score" id="current-0">11</div>
                     <div id="previous-0"></div>
                 </div>
+                <div id=dicelist-0></div>
             </div>
             
             <div class="player-1-panel">
@@ -29,6 +36,7 @@
                     <div class="player-current-score" id="current-1">0</div>
                     <div id="previous-1"></div>
                 </div>
+                <div id=dicelist-1></div>
             </div>
             
             <button class="btn-new"><i class="ion-ios-plus-outline"></i>New game</button>
