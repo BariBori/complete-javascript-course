@@ -30,14 +30,9 @@ init();
 gamePlaying = true;
 
 previousRoll = 0;
-maxPoint = 100;
 
-//set max point button
-document.querySelector('.btn-max-point').addEventListener('click', function(){
-    maxPoint = document.getElementById('max-point-value').value;
-    console.log(maxPoint);
-    document.getElementById('maxPoint').textContent = maxPoint;
-});
+
+
 
 
 //dice button
@@ -59,6 +54,7 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
             scores[activePlayer] = 0;
             previousRoll = 0;
             roundScore = 0;
+            alert("Two 6 in a row. You lost your points!");
             document.querySelector('#current-' + activePlayer).textContent = 0;
             document.querySelector('#previous-'+ activePlayer).textContent = 0;
             document.querySelector('#score-' + activePlayer).textContent = 0;
@@ -66,6 +62,7 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
             nextPlayer();
          }
         else if(dice === 1) {
+            alert("Dice 1. You lost your current points");
             previousRoll = 0;
             document.querySelector('#previous-'+activePlayer).textContent = 0;
             diceList(activePlayer, dice);
@@ -170,6 +167,7 @@ function init(){
     //add active class to player1
     document.querySelector('.player-0-panel').classList.add('active');
 
+    setMaxPoint();
 
 }
 
@@ -177,6 +175,14 @@ function diceList(activePlayer, dice){
     eval('dicelist' + activePlayer).push(dice);
     var lastFive = eval('dicelist'+ activePlayer).slice(Math.max(eval('dicelist'+ activePlayer).length-5,0));
     document.querySelector('#dicelist-' + activePlayer).textContent = lastFive;
+}
+
+
+function setMaxPoint(){
+    let maxPointByUser = prompt("Please set the maximum point", "100");
+    maxPoint = maxPointByUser;
+    document.getElementById('maxPoint').textContent = maxPoint;
+    console.log(maxPoint);
 }
 
 
