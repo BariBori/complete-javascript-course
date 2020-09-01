@@ -54,7 +54,7 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
             scores[activePlayer] = 0;
             previousRoll = 0;
             roundScore = 0;
-            alert("Two 6 in a row. You lost your points!");
+            alert("Two 6 in a row. You lost all your points!");
             document.querySelector('#current-' + activePlayer).textContent = 0;
             document.querySelector('#previous-'+ activePlayer).textContent = 0;
             document.querySelector('#score-' + activePlayer).textContent = 0;
@@ -62,7 +62,7 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
             nextPlayer();
          }
         else if(dice === 1) {
-            alert("Dice 1. You lost your current points");
+            alert("Roll 1. You lost your current points!");
             previousRoll = 0;
             document.querySelector('#previous-'+activePlayer).textContent = 0;
             diceList(activePlayer, dice);
