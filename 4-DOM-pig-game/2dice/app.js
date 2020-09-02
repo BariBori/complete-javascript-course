@@ -22,14 +22,14 @@ Change the game to follow these rules:
 */
 
 
-var scores, roundScore, activePlayer, dice, gamePlaying, previousRoll,  dicelist0, dicelist1, maxPoint;
+var scores, roundScore, activePlayer, dice, dice2, gamePlaying,   dicelist0, dicelist1, maxPoint;
 
 //clear the table
 init();
 
 gamePlaying = true;
 
-previousRoll = 0;
+
 
 
 
@@ -41,41 +41,46 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
 
         //random number
         var dice = Math.floor(Math.random()*(6-1+1)+1);
+        var dice2 = Math.floor(Math.random()*(6-1+1)+1);
 
         console.log(maxPoint);
         //display result
         document.querySelector('.dice').style.display = 'block';
         document.querySelector('.dice').src = 'dice-' + dice + '.png';
-        document.querySelector('#previous-'+ activePlayer).textContent = previousRoll;
+
+        document.querySelector('.dice2').style.display = 'block';
+        document.querySelector('.dice2').src = 'dice-' + dice2 + '.png';
+
+
+        console.log(dice);
+        console.log(dice2);
 
         //update the round score if the rolled number was not 1
-        if(previousRoll === 6 && dice === 6 ){
+        if(dice === 6 && dice2 === 6 ){
              
             scores[activePlayer] = 0;
             previousRoll = 0;
             roundScore = 0;
-            alert("Two 6 in a row. You lost all your points!");
+            alert("Two 6, you lost ALL YOUR points!");
             document.querySelector('#current-' + activePlayer).textContent = 0;
-            document.querySelector('#previous-'+ activePlayer).textContent = 0;
             document.querySelector('#score-' + activePlayer).textContent = 0;
-            diceList(activePlayer, dice);;
+            
             nextPlayer();
          }
-        else if(dice === 1) {
-            alert("Roll 1. You lost your current points!");
+        else if(dice === 1 || dice2 === 1) {
+            alert("Roll: "+dice+" and "+ dice2 +", you lost your CURRENT points!");
             previousRoll = 0;
-            document.querySelector('#previous-'+activePlayer).textContent = 0;
-            diceList(activePlayer, dice);
+            
             
             nextPlayer();
         } else {
             //calculate roundscore
-            roundScore += dice;
+            roundScore += (dice + dice2);
             //add roundscore to the dom
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
             previousRoll = dice;
             
-           diceList(activePlayer, dice);
+           
 
         }
     } 
@@ -84,8 +89,7 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
 //hold button
 document.querySelector('.btn-hold').addEventListener('click', function(){
     if(gamePlaying){
-        previousRoll = 0;
-        document.querySelector('#previous-'+activePlayer).textContent = 0;
+        
         //add roundscore to global scores
         scores[activePlayer] += roundScore;
 
@@ -96,6 +100,7 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
         if(scores[activePlayer]>=maxPoint){
             document.querySelector('#name-'+ activePlayer).textContent = 'WINNER!';
             document.querySelector('.dice').style.display = 'none';
+            document.querySelector('.dice2').style.display = 'none';
   
             document.querySelector('.player-'+ activePlayer + '-panel').classList.remove('active');
             document.querySelector('.player-'+ activePlayer + '-panel').classList.add('winner');
@@ -127,6 +132,7 @@ function nextPlayer(){
     document.querySelector('.player-1-panel').classList.toggle('active');
 
     document.querySelector('.dice').style.display = 'none';
+    document.querySelector('.dice2').style.display = 'none';
 }
 
 function init(){
@@ -138,18 +144,17 @@ function init(){
     dicelist1 = [];
 
     
-    
-
     //hide dice
     document.querySelector('.dice').style.display = 'none';
+    document.querySelector('.dice2').style.display = 'none';
+
 
     //set 0 all elements
     document.getElementById('score-0').textContent = '0';
     document.getElementById('score-1').textContent = '0';
     document.getElementById('current-0').textContent = '0';
     document.getElementById('current-1').textContent = '0';
-    document.getElementById('dicelist-0').textContent = '';
-    document.getElementById('dicelist-1').textContent = '';
+    
 
     //set Players name
     document.getElementById('name-0').textContent = 'Player 1';
@@ -170,11 +175,7 @@ function init(){
 
 }
 
-function diceList(activePlayer, dice){
-    eval('dicelist' + activePlayer).push(dice);
-    var lastFive = eval('dicelist'+ activePlayer).slice(Math.max(eval('dicelist'+ activePlayer).length-5,0));
-    document.querySelector('#dicelist-' + activePlayer).textContent = lastFive;
-}
+
 
 
 function setMaxPoint(){
