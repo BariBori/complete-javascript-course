@@ -179,7 +179,11 @@ function diceList(activePlayer, dice){
 
 function setMaxPoint(){
     let maxPointByUser = prompt("Please set the maximum point", "100");
-    maxPoint = maxPointByUser;
+    if(isNaN(maxPointByUser) ){
+        maxPoint = 100;
+    } else {
+        maxPoint = maxPointByUser;
+    }
     document.getElementById('maxPoint').textContent = maxPoint;
     console.log(maxPoint);
 }
