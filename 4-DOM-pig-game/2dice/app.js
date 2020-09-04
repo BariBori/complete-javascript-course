@@ -30,11 +30,6 @@ init();
 gamePlaying = true;
 
 
-
-
-
-
-
 //dice button
 document.querySelector('.btn-roll').addEventListener('click', function(){
     if(gamePlaying){
@@ -50,7 +45,6 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
 
         document.querySelector('.dice2').style.display = 'block';
         document.querySelector('.dice2').src = 'dice-' + dice2 + '.png';
-
 
         console.log(dice);
         console.log(dice2);
