@@ -114,3 +114,128 @@ change(age, obj);
 
 console.log(age);
 console.log(obj.city);
+
+//Passing funcionts as arguments
+
+var years = [1990, 1965, 1937, 2005, 1998];
+
+function arrayCalc(arr, fn){
+    var arrRes=[];
+    for(i=0; i<arr.length; i++){
+        arrRes.push(fn(arr[i]));
+    }
+
+    return arrRes;
+}
+
+function calculateAges(el){
+    return 2020-el;
+}
+
+function isFullAge(el){
+    return el >= 18;
+}
+
+function maxHeartRate(el){
+    if(el>=18 && el <=81){
+        return Math.round(206.9 -(0.67 * el));
+    }
+    return -1;
+    
+}
+
+var ages = arrayCalc(years, calculateAges);
+console.log(ages);
+
+var legal = arrayCalc(ages, isFullAge);
+console.log(legal);
+
+var heartRates = arrayCalc(ages, maxHeartRate);
+console.log(heartRates);
+
+
+//functions returning functions
+
+function interviewQuestion(job){
+    if(job === 'designer'){
+        return function(name){
+            console.log(name + ', can you explain what UX design is? ')
+        }
+    } else if (job === 'teacher'){
+        return function(name){
+            console.log(name + ', what subject do you teach? ')
+        }
+    } else {
+        return function(name){
+            console.log('Hello ' + name + ', what do you do for a living?')
+        }
+    }
+}
+
+var teacherQuestion = interviewQuestion('teacher');
+var designerQuestion = interviewQuestion('designer');
+var avrQuestion = interviewQuestion('plumber');
+
+teacherQuestion('John');
+designerQuestion('Mira');
+avrQuestion('Kevin');
+
+interviewQuestion('designer')('Ludmilla');
+
+
+function whatSay(animal){
+    switch(animal){
+        case 'dog': return function(name){
+            console.log(name + ' the ' + animal +' says woof');
+        } 
+        case 'cat': return function(name){
+            console.log(name +  ' the ' + animal +' says meow');
+        }
+        default: return function(name){
+            console.log(name +  ' the ' + animal +' says strange things');
+        }
+    }
+}
+
+whatSay('dog')('Killer');
+whatSay('cat')('Milky');
+whatSay('alligator')('Later');
+
+//***************plusz infok
+
+const sayHello = () =>{
+    return 'Hello';
+}
+console.log(sayHello());
+
+
+const sayHelloToPerson = (greeter, person)  =>{
+    return greeter() + " " + person;
+};
+console.log(sayHelloToPerson(sayHello, "Jack!"));
+
+
+const greeterMaker = greeting =>{
+    return person => {
+        return greeting + " " + person + "!";
+    }
+}
+
+const sayHiToPerson = greeterMaker("Hi");
+console.log(sayHiToPerson("Jane"));
+
+const sayHowdyToPerson = greeterMaker("Howdy");
+console.log(sayHowdyToPerson("Bob"));
+
+var arr = [28, function(){console.log("Hi from an array");}];
+arr[1]();
+
+var obj = {
+    number: 20,
+    funct: function(){console.log("Hi form an object");}
+};
+obj.funct();
+
+console.log(28 + (function(){return 10;})());
+
+//******************************** */
