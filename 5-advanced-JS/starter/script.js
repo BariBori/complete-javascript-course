@@ -265,5 +265,38 @@ game();
 })(5);
 //a score mindig nagyobb mint nulla, ezért mindig nyerő
 
+//Closures
+function retirement(retirementAge, country){
+    var a = ' years left until retirement in '
+    return function(yearOfBirth){
+        var age = 2020-yearOfBirth;
+        console.log((retirementAge-age) + a + country);
+    }
+}
+
+var retirementUS = retirement(66, 'USA');
+retirementUS(1979);
+
+retirement(65, 'Hungary')(1979);
+
+//clusures challene
+function interviewQuest(job){
+    
+    return function(name){
+        var question= '';
+        switch(job){
+            case 'designer': question = ', can you explain what UX design is?';
+            break;
+            case 'teacher': question = ', what subject do you teach?';
+            break;
+            default: question = ', what do you do for a living?';
+        }
+        console.log(name + question);
+    }
+};
+
+interviewQuest('designer')('John');
+interviewQuest('teacher')('Mirella');
+interviewQuest('plumber')('Tim');
 
 
