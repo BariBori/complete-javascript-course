@@ -299,4 +299,69 @@ interviewQuest('designer')('John');
 interviewQuest('teacher')('Mirella');
 interviewQuest('plumber')('Tim');
 
+//Bind, call, apply
 
+var john = {
+    name: 'John',
+    age: 26,
+    job: 'teacher',
+    presentation: function(style, timeOfDay){
+        switch(style){
+            case 'formal' : console.log('Good ' + timeOfDay + ' ladies and gentlemen. I\'m ' 
+            + this.name + ' I\'m a ' + this.job + ' and I\'m ' + this.age + ' years old.');
+            break;
+            case 'friendly' : console.log('Hey! I\'m ' 
+            + this.name + ' I\'m a ' + this.job + ' and I\'m ' + this.age + ' years old. Have a good ' + timeOfDay + '!');
+            break;
+            default: console.log('I don\'t know me. Have a good ' + timeOfDay + '!');
+        }
+    }
+}
+
+john.presentation('friendly', 'afternoon');
+john.presentation('formal', 'morning');
+john.presentation('non', 'evening' );
+
+var emily={
+    name: 'Emily',
+    age: 35,
+    job: 'designer'
+}
+
+console.log('-----Call-----');
+john.presentation.call(emily, 'formal', 'evening');
+console.log('-----Apply-----');
+john.presentation.apply(emily, ['friendly', 'morning']);
+console.log('-----Bind-----');
+var johnFriendly = john.presentation.bind(john, 'friendly');
+johnFriendly('evening');
+
+var emilyFormal = john.presentation.bind(emily, 'formal');
+emilyFormal('morning');
+
+
+
+
+
+var years = [1990, 1965, 1937, 2005, 1998];
+
+function arrayCalc(arr, fn){
+    var arrRes = [];
+    for (var i=0; i<arr.length; i++){
+        arrRes.push(fn(arr[i]));
+    }
+    return arrRes;
+}
+
+function calculateAge(el){
+    return 2020 - el;
+}
+
+function isFullAge(limit, el){
+    return el>= limit;
+}
+
+var ages = arrayCalc(years, calculateAge);//kiszámolja az életkorokat
+var fullJapan = arrayCalc(ages, isFullAge.bind(this,20)); //megnézi, hogy 20 felett van-e
+console.log(ages);
+console.log(fullJapan);
