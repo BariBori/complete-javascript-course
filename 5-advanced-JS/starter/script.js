@@ -185,7 +185,8 @@ interviewQuestion('designer')('Ludmilla');
 
 function whatSay(animal){
     switch(animal){
-        case 'dog': return function(name){
+        case 'dog': return (name)=>{
+            //arrow function = nameless function
             console.log(name + ' the ' + animal +' says woof');
         } 
         case 'cat': return function(name){
@@ -239,3 +240,30 @@ obj.funct();
 console.log(28 + (function(){return 10;})());
 
 //******************************** */
+
+
+//IIFE Immediately Invoked Function Expression
+
+function game(){
+    var score = Math.random()*10;
+    console.log(score);
+    console.log(score >=5);
+}
+game();
+
+(function(){
+    var score = Math.random()*10;
+    console.log(score);
+    console.log(score >=5);
+})();
+
+
+(function(goodLuck){
+    var score = Math.random()*10;
+    console.log(score);
+    console.log(score >=5 - goodLuck);
+})(5);
+//a score mindig nagyobb mint nulla, ezért mindig nyerő
+
+
+
