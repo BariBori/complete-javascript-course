@@ -63,7 +63,6 @@ function nextQuestion(){
 
     if(answear !== 'exit'){
         questions[randomNumber].checkAnswear(parseInt(answear), keepScore);
-
         nextQuestion();
     } else {
         console.log('GAME END');
