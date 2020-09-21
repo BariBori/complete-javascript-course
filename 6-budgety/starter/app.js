@@ -108,7 +108,9 @@ var UIcontroller = (function(){
         inputType: '.add__type',
         inputDescription: '.add__description',
         inputValue: '.add__value',
-        inputButton: '.add__btn'
+        inputButton: '.add__btn',
+        incomeContainer: '.income__list',
+        expenseContainer: '.expenses__list'
     }
 
     //public functions
@@ -121,9 +123,38 @@ var UIcontroller = (function(){
             }
         },
 
+        addListItem: function(obj, type){
+            var html, newHtml, element;
+
+            if(type === 'inc'){
+                element = DOMStrings.incomeContainer;
+                html = '<div class="item clearfix" id="income-%id%">'+
+                '<div class="item__description">%description%</div><div class="right clearfix">'+
+                '<div class="item__value">+ %value%</div>'+
+                '<div class="item__delete"></div>'+
+                '<button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+            } else if(type === 'exp'){
+                element = DOMStrings.expenseContainer;
+                html = '<div class="item clearfix" id="expense-%id%">'+
+                '<div class="item__description">%description%</div>'+
+                '<div class="right clearfix"><div class="item__value">- %value%</div><div class="item__percentage">soon</div>'+
+                '<div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+
+            }
+
+            newHtml = html.replace('%id%', obj.id);
+            newHtml = newHtml.replace('%description%', obj.description);
+            newHtml = newHtml.replace('%value%', obj.value);
+
+            document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
+
+        },
+
         getDomStrings: function(){
             return DOMStrings;
         }
+
+
     }
 
 })();
@@ -156,7 +187,7 @@ var controller = (function(budgetCrtl, UICtrl){
         //2. add item to the budget controller
         newItem = budgetCrtl.addItem(input.type, input.description, input.value);
         //3. add item to the user interface
-
+        UICtrl.addListItem(newItem, input.type);
 
         //4. calculate the budget
         //5. display budget in UI
