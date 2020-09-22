@@ -48,6 +48,19 @@ var budgetController = (function(){
         this.value = value;
     };
 
+    //calculate totals and store in the global structure
+    var calculateTotal = function(type){
+        var sum = 0;
+      
+        data.allItems[type].forEach(element => {
+            sum += element.value;
+        });
+
+        data.totals[type] = sum;
+
+    }
+
+    //global data structure
     var data = {
         allItems: {
             exp: [],
@@ -56,7 +69,9 @@ var budgetController = (function(){
         totals:{
             exp:0,
             inc:0
-        }
+        },
+        budget:0,
+        percentage: -1 // does not exist in this point
     };
 
     //public functions
@@ -89,7 +104,35 @@ var budgetController = (function(){
 
             //return the new element
             return newItem;
+        },
 
+        calculateBudget: function(){
+            
+            //caltulate total income and expenses and store in global data structure
+            calculateTotal('exp');
+            calculateTotal('inc');
+
+            //calculate budget = income-expense   stored in global data structure
+
+            data.budget = data.totals.inc - data.totals.exp;
+            
+            //calculate the percentage of the income that we spent  stored in global data structure
+            if(data.totals.inc>0){
+                data.percentage = Math.round((data.totals.exp / data.totals.inc) *100);
+            } else {
+                data.percentage = -1;
+            }
+            
+
+        },
+
+        getBudget: function(){
+            return {
+                budget : data.budget,
+                totalInc: data.totals.inc,
+                totalExp: data.totals.exp,
+                percentage: data.percentage
+            }
         },
 
         testing: function(){
@@ -195,9 +238,11 @@ var controller = (function(budgetCrtl, UICtrl){
 
     var updateBudget = function(){
         //1. calculate the budget
+       budgetCrtl.calculateBudget();
 
         //2. return the budget
-
+        var budget = budgetCrtl.getBudget();
+        console.log(budget);
         //3. display budget in UI
     }
 
