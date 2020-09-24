@@ -216,6 +216,13 @@ var UIcontroller = (function(){
         dateLabel:'.budget__title--month'
     }
 
+    //segéd funkció listákhoz, amiken alapból nem működik a foreach
+    var nodeListForEach = function(list, callback){
+        for ( var i= 0; i<list.length; i++ ){
+            callback(list[i], i);
+        }
+    };
+
     //private function
     var formatNumber= function(num, type){
         /* 
@@ -335,11 +342,7 @@ var UIcontroller = (function(){
         displayPercentages: function(percentages){
             var fields = document.querySelectorAll(DOMStrings.expensesPercLabel);
 
-            var nodeListForEach = function(list, callback){
-                for ( var i= 0; i<list.length; i++ ){
-                    callback(list[i], i);
-                }
-            };
+       
 
             nodeListForEach(fields, function(current, index){
                 if(percentages[index]>0){
@@ -362,6 +365,19 @@ var UIcontroller = (function(){
 
         },
 
+        changedType: function(){
+            var fields = document.querySelectorAll(
+                DOMStrings.inputType + ',' + 
+                DOMStrings.inputDescription + ','+
+                DOMStrings.inputValue);
+            
+
+            nodeListForEach(fields, function(cur){
+                cur.classList.toggle('red-focus');
+            });
+
+            document.querySelector(DOMStrings.inputButton).toggle('red');
+        },
         
 
         getDomStrings: function(){
@@ -391,6 +407,8 @@ var controller = (function(budgetCrtl, UICtrl){
 
         //set up an event handler on container, the parent element of the delete button
         document.querySelector(DOM.container).addEventListener('click', crtlDeleteItem);
+
+        document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changedType);
     };
 
     var updateBudget = function(){
