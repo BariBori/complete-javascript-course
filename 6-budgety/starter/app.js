@@ -215,6 +215,34 @@ var UIcontroller = (function(){
         expensesPercLabel: '.item__percentage'
     }
 
+    //private function
+    var formatNumber= function(num, type){
+        /* 
+        + or - before number
+        2 decimal points
+        comma separated thousands
+        
+        2013.0467 => +2,013.05
+        2000 => + 2,000.00
+        */
+
+        var numSplit;
+
+        num = Math.abs(num);
+        num = num.toFixed(2);
+
+        numSplit = num.split(".");
+
+        int = numSplit[0];
+        if(int.length>3){
+            int = int.substr(0,int.length-3) + ',' + int.substr(int.length-3,int.length);
+        }
+
+        dec = numSplit[1];
+        
+        return  (type === 'exp' ? sign = '-' : '+') + ' ' + int + '.'+ dec;
+    };
+
     //public functions
     return{
         getInput: function(){
@@ -233,7 +261,7 @@ var UIcontroller = (function(){
                 html = '<div class="item clearfix" id="inc-%id%">'+
                     '<div class="item__description">%description%</div>'+
                     '<div class="right clearfix">'+
-                        '<div class="item__value">+ %value%</div>'+
+                        '<div class="item__value"> %value%</div>'+
                         '<div class="item__delete">'+
                             '<button class="item__delete--btn">'+
                                  '<i class="ion-ios-close-outline"></i>'+
@@ -244,7 +272,7 @@ var UIcontroller = (function(){
                 html = '<div class="item clearfix" id="exp-%id%">'+
                 '<div class="item__description">%description%</div>'+
                 '<div class="right clearfix">'+
-                '<div class="item__value">- %value%</div>'+
+                '<div class="item__value"> %value%</div>'+
                 '<div class="item__percentage">-</div>'+
                 '<div class="item__delete">'+
                 '<button class="item__delete--btn">'+
@@ -256,7 +284,7 @@ var UIcontroller = (function(){
 
             newHtml = html.replace('%id%', obj.id);
             newHtml = newHtml.replace('%description%', obj.description);
-            newHtml = newHtml.replace('%value%', obj.value);
+            newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
 
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
 
@@ -288,9 +316,13 @@ var UIcontroller = (function(){
         },
 
         displayBudget: function(obj){
-            document.querySelector(DOMStrings.budgetLabel).textContent = obj.budget;
-            document.querySelector(DOMStrings.incomeLabel).textContent = obj.totalInc;
-            document.querySelector(DOMStrings.expensesLabel).textContent = obj.totalExp;
+            var type;
+
+            obj.budget > 0 ? type = 'inc' : type = 'exp';
+
+            document.querySelector(DOMStrings.budgetLabel).textContent = formatNumber(obj.budget, type);
+            document.querySelector(DOMStrings.incomeLabel).textContent = formatNumber(obj.totalInc, 'inc');
+            document.querySelector(DOMStrings.expensesLabel).textContent = formatNumber(obj.totalExp, 'exp');
             if(obj.percentage>0){
                 document.querySelector(DOMStrings.percentageLabel).textContent = obj.percentage + "%";
             } else {
@@ -319,32 +351,7 @@ var UIcontroller = (function(){
 
         },
 
-        formatNumber: function(num, type){
-            /* 
-            + or - before number
-            2 decimal points
-            comma separated thousands
-            
-            2013.0467 => +2,013.05
-            2000 => + 2,000.00
-            */
-
-            var numSplit;
-
-            num = Math.abs(num);
-            num = num.toFixed(2);
-
-            numSplit = num.split(".");
-
-            integer = numSplit[0];
-            if(int.length>3){
-                int = int.substr(0,int.lengt-3) + ',' + int.substr(int.length-3,3);
-            }
-
-            decimal = numSplit[1];
-            
-            return  (type === 'exp' ? sign = '-' : '+') + int + dec;
-        },
+        
 
         getDomStrings: function(){
             return DOMStrings;
