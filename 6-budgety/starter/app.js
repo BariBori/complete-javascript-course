@@ -212,7 +212,7 @@ var UIcontroller = (function(){
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
-        itemPercentageLabel: '.item__percentage'
+        expensesPercLabel: '.item__percentage'
     }
 
     //public functions
@@ -245,7 +245,7 @@ var UIcontroller = (function(){
                 '<div class="item__description">%description%</div>'+
                 '<div class="right clearfix">'+
                 '<div class="item__value">- %value%</div>'+
-                '<div class="item__percentage">%percentage%</div>'+
+                '<div class="item__percentage">-</div>'+
                 '<div class="item__delete">'+
                 '<button class="item__delete--btn">'+
                 '<i class="ion-ios-close-outline"></i>'+
@@ -299,6 +299,53 @@ var UIcontroller = (function(){
             
         },
 
+        displayPercentages: function(percentages){
+            var fields = document.querySelectorAll(DOMStrings.expensesPercLabel);
+
+            var nodeListForEach = function(list, callback){
+                for ( var i= 0; i<list.length; i++ ){
+                    callback(list[i], i);
+                }
+            };
+
+            nodeListForEach(fields, function(current, index){
+                if(percentages[index]>0){
+                    current.textContent = percentages[index]+"%";
+                } else {
+                    current.textContent = '---';
+                }
+
+            });
+
+        },
+
+        formatNumber: function(num, type){
+            /* 
+            + or - before number
+            2 decimal points
+            comma separated thousands
+            
+            2013.0467 => +2,013.05
+            2000 => + 2,000.00
+            */
+
+            var numSplit;
+
+            num = Math.abs(num);
+            num = num.toFixed(2);
+
+            numSplit = num.split(".");
+
+            integer = numSplit[0];
+            if(int.length>3){
+                int = int.substr(0,int.lengt-3) + ',' + int.substr(int.length-3,3);
+            }
+
+            decimal = numSplit[1];
+            
+            return  (type === 'exp' ? sign = '-' : '+') + int + dec;
+        },
+
         getDomStrings: function(){
             return DOMStrings;
         }
@@ -347,7 +394,7 @@ var controller = (function(budgetCrtl, UICtrl){
         //read from the budget controller
         var percentages = budgetCrtl.getPercentages();
         //update the UI
-        console.log(percentages);
+        UICtrl.displayPercentages(percentages);
     }
 
     var crtlAddItem = function(){
